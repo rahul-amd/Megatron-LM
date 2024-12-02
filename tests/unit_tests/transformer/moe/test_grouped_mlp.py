@@ -313,6 +313,7 @@ class TestTEGroupedMLP:
                 self.fc2_ffn_hidden_size,
             )
 
+    @pytest.mark.internal
     @pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
     @pytest.mark.test_on_rocm
     @pytest.mark.internal
@@ -357,6 +358,7 @@ class TestTEGroupedMLP:
         for smm_result, gmm_result in zip(smm_results, gmm_results):
             torch.testing.assert_close(smm_result, gmm_result)
 
+    @pytest.mark.internal
     @pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA not available")
     @pytest.mark.test_on_rocm
     @pytest.mark.internal

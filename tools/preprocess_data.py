@@ -23,6 +23,7 @@ except ImportError:
     nltk_available = False
 
 from megatron.training.tokenizer import build_tokenizer
+from megatron.training.arguments import _add_tokenizer_args
 from megatron.core.datasets import indexed_dataset
 
 
@@ -188,6 +189,7 @@ class Partition(object):
 
 def get_args():
     parser = argparse.ArgumentParser()
+    parser = _add_tokenizer_args(parser)
     group = parser.add_argument_group(title='input data')
     group.add_argument('--input', type=str, required=True,
                        help='Path to input JSON')
@@ -220,7 +222,6 @@ def get_args():
     group = parser.add_argument_group(title='output data')
     group.add_argument('--output-prefix', type=str, required=True,
                        help='Path to binary output file without suffix')
-
     group = parser.add_argument_group(title='runtime')
     group.add_argument('--workers', type=int, required=True,
                        help=('Number of worker processes to launch.'
