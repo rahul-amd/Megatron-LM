@@ -232,14 +232,23 @@ def apply_rotary_pos_emb(
             else:
                 return fused_apply_rotary_pos_emb_thd(t, cu_seqlens, freqs)
         else:
-            return _apply_rotary_pos_emb_thd(
-                t,
-                cu_seqlens,
-                freqs,
-                rotary_interleaved=config.rotary_interleaved,
-                multi_latent_attention=config.multi_latent_attention,
-                mscale=mscale,
-            )
+            if cu_seqlens is None:
+                return _apply_rotary_pos_emb_bshd(
+                    t,
+                    freqs,
+                    rotary_interleaved=config.rotary_interleaved,
+                    multi_latent_attention=config.multi_latent_attention,
+                    mscale=mscale,
+                )
+            else:
+                return _apply_rotary_pos_emb_thd(
+                    t,
+                    cu_seqlens,
+                    freqs,
+                    rotary_interleaved=config.rotary_interleaved,
+                    multi_latent_attention=config.multi_latent_attention,
+                    mscale=mscale,
+                )
 
 
 def apply_rotary_pos_emb_with_cos_sin(
